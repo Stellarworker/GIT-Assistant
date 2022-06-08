@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- MainActivity begin -->
+    <dimen name="main_activity_root_padding">15dp</dimen>
+    <!-- MainActivity end -->
+
+    <!-- MainActivity RecyclerView Item begin -->
+    <dimen name="main_activity_recyclerview_item_common_padding">10dp</dimen>
+    <dimen name="main_activity_recyclerview_item_root_margin_horizontal">5dp</dimen>
+    <dimen name="main_activity_recyclerview_item_root_margin_top">5dp</dimen>
+    <dimen name="main_activity_recyclerview_item_root_card_corner_radius">5dp</dimen>
+    <dimen name="main_activity_recyclerview_item_root_card_elevation">5dp</dimen>
+    <dimen name="main_activity_recyclerview_item_avatar_width">80dp</dimen>
+    <dimen name="main_activity_recyclerview_item_avatar_height">80dp</dimen>
+    <dimen name="main_activity_recyclerview_item_login_textsize">20sp</dimen>
+    <dimen name="main_activity_recyclerview_item_uid_textsize">20sp</dimen>
+    <!-- MainActivity RecyclerView Item end -->
+
+</resources>

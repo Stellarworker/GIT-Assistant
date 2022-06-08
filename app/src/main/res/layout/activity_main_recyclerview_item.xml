@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_main_recyclerview_item_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/main_activity_recyclerview_item_root_margin_horizontal"
+    android:layout_marginTop="@dimen/main_activity_recyclerview_item_root_margin_top"
+    app:cardCornerRadius="@dimen/main_activity_recyclerview_item_root_card_corner_radius"
+    app:cardElevation="@dimen/main_activity_recyclerview_item_root_card_elevation">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/main_activity_recyclerview_item_common_padding">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/activity_main_recyclerview_item_avatar"
+            android:layout_width="@dimen/main_activity_recyclerview_item_avatar_width"
+            android:layout_height="@dimen/main_activity_recyclerview_item_avatar_height" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/main_activity_recyclerview_item_common_padding">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/activity_main_recyclerview_item_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/main_activity_recyclerview_item_login_textsize"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/activity_main_recyclerview_item_uid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/main_activity_recyclerview_item_uid_textsize" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</com.google.android.material.card.MaterialCardView>
