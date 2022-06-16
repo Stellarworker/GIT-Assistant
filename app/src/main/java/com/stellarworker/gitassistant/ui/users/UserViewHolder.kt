@@ -5,19 +5,25 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.stellarworker.gitassistant.R
-import com.stellarworker.gitassistant.databinding.ActivityMainRecyclerviewItemBinding
+import com.stellarworker.gitassistant.databinding.UsersRecyclerviewItemBinding
 
-class UserViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
+class UserViewHolder(
+    parent: ViewGroup,
+    private val onItemClicked: ((userInfo: UserInfo) -> Unit)? = null
+) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context)
-        .inflate(R.layout.activity_main_recyclerview_item, parent, false)
+        .inflate(R.layout.users_recyclerview_item, parent, false)
 ) {
-    private val binding = ActivityMainRecyclerviewItemBinding.bind(itemView)
+    private val binding = UsersRecyclerviewItemBinding.bind(itemView)
 
     fun bind(userInfo: UserInfo) {
         with(binding) {
-            activityMainRecyclerviewItemAvatar.load(userInfo.avatarUrl)
-            activityMainRecyclerviewItemLogin.text = userInfo.login
-            activityMainRecyclerviewItemUid.text = userInfo.id.toString()
+            usersRecyclerviewItemAvatar.load(userInfo.avatarUrl)
+            usersRecyclerviewItemLogin.text = userInfo.login
+            usersRecyclerviewItemUid.text = userInfo.id
+        }
+        itemView.setOnClickListener {
+            onItemClicked?.invoke(userInfo)
         }
     }
 }

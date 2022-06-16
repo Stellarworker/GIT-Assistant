@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- MainActivity begin -->
-    <dimen name="main_activity_root_padding">15dp</dimen>
-    <!-- MainActivity end -->
+    <!-- Common application begin -->
+    <dimen name="common_padding_horizontal">10dp</dimen>
+    <dimen name="common_margin_top">10dp</dimen>
+    <!-- Common application end -->
 
     <!-- MainActivity RecyclerView Item begin -->
     <dimen name="main_activity_recyclerview_item_common_padding">10dp</dimen>
@@ -16,5 +17,11 @@
     <dimen name="main_activity_recyclerview_item_login_textsize">20sp</dimen>
     <dimen name="main_activity_recyclerview_item_uid_textsize">20sp</dimen>
     <!-- MainActivity RecyclerView Item end -->
+
+    <!-- UserDetailsActivity begin -->
+    <dimen name="user_details_activity_root_padding">15dp</dimen>
+    <dimen name="user_details_activity_text_size">20sp</dimen>
+    <dimen name="user_details_activity_text_margin_start">20dp</dimen>
+    <!-- UserDetailsActivity end -->
 
 </resources>

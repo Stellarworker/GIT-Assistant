@@ -1,6 +1,6 @@
-package com.stellarworker.gitassistant.domain.repos
+package com.stellarworker.gitassistant.data.repos
 
-import com.stellarworker.gitassistant.domain.entities.UsersEntityGTO
+import com.stellarworker.gitassistant.data.entities.UsersEntityGTO
 
 interface UsersRepo {
     fun getUsers(

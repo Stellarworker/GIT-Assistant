@@ -1,13 +1,17 @@
 package com.stellarworker.gitassistant.ui.users
 
-private const val EMPTY_STRING = ""
-private const val EMPTY_LONG = -1L
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
+private const val EMPTY_STRING = ""
+
+@Parcelize
 data class UserInfo(
     val login: String = EMPTY_STRING,
-    val id: Long = EMPTY_LONG,
+    val id: String = EMPTY_STRING,
+    val type: String = EMPTY_STRING,
     val avatarUrl: String = EMPTY_STRING
-)
+) : Parcelable
 
 data class MainActivityDataset(
     val users: List<UserInfo> = listOf()

@@ -9,4 +9,10 @@
     <string name="main_activity_refresh_button">Get users info</string>
     <!-- MainActivity end -->
 
+    <!-- UserDetailsActivity begin -->
+    <string name="user_details_activity_login">Login: %1s</string>
+    <string name="user_details_activity_uid">User ID: %1s</string>
+    <string name="user_details_activity_type">Type: %1s</string>
+    <!-- UserDetailsActivity end -->
+
 </resources>

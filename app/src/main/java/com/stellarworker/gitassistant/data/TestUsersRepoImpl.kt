@@ -2,9 +2,9 @@ package com.stellarworker.gitassistant.data
 
 import android.os.Handler
 import android.os.Looper
-import com.stellarworker.gitassistant.domain.entities.UserEntityGTO
-import com.stellarworker.gitassistant.domain.entities.UsersEntityGTO
-import com.stellarworker.gitassistant.domain.repos.UsersRepo
+import com.stellarworker.gitassistant.data.entities.UserEntityGTO
+import com.stellarworker.gitassistant.data.entities.UsersEntityGTO
+import com.stellarworker.gitassistant.data.repos.UsersRepo
 
 private const val DATA_LOADING_DELAY = 3000L
 private const val SUCCESS_LIKELIHOOD = 0.5
@@ -14,44 +14,44 @@ class TestUsersRepoImpl : UsersRepo {
 
     private val usersData: UsersEntityGTO = listOf(
         UserEntityGTO(
-            login = "mojombo", id = 1,
+            login = "mojombo", id = 1, type = "User",
             avatarUrl = "https://avatars.githubusercontent.com/u/1?v=4"
         ),
         UserEntityGTO(
-            login = "defunkt", id = 2,
+            login = "defunkt", id = 2, type = "User",
             avatarUrl = "https://avatars.githubusercontent.com/u/2?v=4"
         ),
         UserEntityGTO(
-            login = "pjhyett", id = 3,
+            login = "pjhyett", id = 3, type = "User",
             avatarUrl = "https://avatars.githubusercontent.com/u/3?v=4"
         ),
         UserEntityGTO(
-            login = "wycats", id = 4,
+            login = "wycats", id = 4, type = "User",
             avatarUrl = "https://avatars.githubusercontent.com/u/4?v=4"
         ),
         UserEntityGTO(
-            login = "ezmobius", id = 5,
+            login = "ezmobius", id = 5, type = "User",
             avatarUrl = "https://avatars.githubusercontent.com/u/5?v=4"
         ),
         UserEntityGTO(
-            login = "ivey", id = 6,
+            login = "ivey", id = 6, type = "User",
             avatarUrl = "https://avatars.githubusercontent.com/u/6?v=4"
         ),
         UserEntityGTO(
-            login = "ivey", id = 7,
+            login = "evanphx", id = 7, type = "User",
             avatarUrl = "https://avatars.githubusercontent.com/u/7?v=4"
         ),
         UserEntityGTO(
-            login = "evanphx", id = 8,
-            avatarUrl = "https://avatars.githubusercontent.com/u/8?v=4"
-        ),
-        UserEntityGTO(
-            login = "vanpelt", id = 17,
+            login = "vanpelt", id = 17, type = "User",
             avatarUrl = "https://avatars.githubusercontent.com/u/17?v=4"
         ),
         UserEntityGTO(
-            login = "wayneeseguin", id = 18,
+            login = "wayneeseguin", id = 18, type = "User",
             avatarUrl = "https://avatars.githubusercontent.com/u/18?v=4"
+        ),
+        UserEntityGTO(
+            login = "brynary", id = 19, type = "User",
+            avatarUrl = "https://avatars.githubusercontent.com/u/19?v=4"
         )
     )
 
