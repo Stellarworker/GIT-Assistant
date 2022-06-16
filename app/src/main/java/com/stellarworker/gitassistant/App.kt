@@ -4,7 +4,7 @@ import android.app.Application
 import android.content.Context
 import androidx.fragment.app.Fragment
 import com.stellarworker.gitassistant.data.TestUsersRepoImpl
-import com.stellarworker.gitassistant.domain.repos.UsersRepo
+import com.stellarworker.gitassistant.data.repos.UsersRepo
 
 class App : Application() {
     val usersRepo: UsersRepo by lazy { TestUsersRepoImpl() }

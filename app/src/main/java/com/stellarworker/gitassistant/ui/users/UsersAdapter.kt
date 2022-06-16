@@ -4,16 +4,13 @@ import android.annotation.SuppressLint
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-class UsersAdapter : RecyclerView.Adapter<UserViewHolder>() {
+class UsersAdapter(
+    private val onItemClicked: ((userInfo: UserInfo) -> Unit)? = null
+) : RecyclerView.Adapter<UserViewHolder>() {
     private val data = mutableListOf<UserInfo>()
 
-    init {
-        setHasStableIds(true)
-    }
-
-    override fun getItemId(position: Int) = getItem(position).id
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = UserViewHolder(parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+        UserViewHolder(parent, onItemClicked)
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         holder.bind(getItem(position))
@@ -21,7 +18,7 @@ class UsersAdapter : RecyclerView.Adapter<UserViewHolder>() {
 
     override fun getItemCount() = data.size
 
-    private fun getItem(pos: Int) = data[pos]
+    private fun getItem(position: Int) = data[position]
 
     @SuppressLint("NotifyDataSetChanged")
     fun clearData() {

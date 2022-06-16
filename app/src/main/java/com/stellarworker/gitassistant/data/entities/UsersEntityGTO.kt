@@ -1,4 +1,4 @@
-package com.stellarworker.gitassistant.domain.entities
+package com.stellarworker.gitassistant.data.entities
 
 import com.google.gson.annotations.SerializedName
 
