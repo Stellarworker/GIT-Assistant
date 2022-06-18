@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
 class UsersAdapter(
-    private val onItemClicked: ((userInfo: UserInfo) -> Unit)? = null
+    private val onItemClicked: (UserInfo) -> Unit
 ) : RecyclerView.Adapter<UserViewHolder>() {
     private val data = mutableListOf<UserInfo>()
 
@@ -19,12 +19,6 @@ class UsersAdapter(
     override fun getItemCount() = data.size
 
     private fun getItem(position: Int) = data[position]
-
-    @SuppressLint("NotifyDataSetChanged")
-    fun clearData() {
-        data.clear()
-        notifyDataSetChanged()
-    }
 
     @SuppressLint("NotifyDataSetChanged")
     fun setData(usersInfo: MainActivityDataset) {

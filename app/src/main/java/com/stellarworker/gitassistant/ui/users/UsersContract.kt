@@ -1,18 +1,17 @@
 package com.stellarworker.gitassistant.ui.users
 
+import androidx.lifecycle.LiveData
+
 interface UsersContract {
 
-    interface View {
-        fun showUsers(dataset: MainActivityDataset)
-        fun showError(error: Throwable)
-        fun showProgress(show: Boolean)
-        fun showContent(show: Boolean)
-    }
+    interface ViewModel {
+        val usersLiveData: LiveData<MainActivityDataset>
+        val errorLiveData: LiveData<Throwable>
+        val progressLiveData: LiveData<Boolean>
+        val openDetailsLiveData: LiveData<UserInfo>
 
-    interface Presenter {
-        fun attach(view: View)
-        fun detach()
         fun onRefresh()
+        fun onUserClick(userInfo: UserInfo)
     }
 
 }
