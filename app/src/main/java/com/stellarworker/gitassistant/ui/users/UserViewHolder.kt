@@ -9,7 +9,7 @@ import com.stellarworker.gitassistant.databinding.UsersRecyclerviewItemBinding
 
 class UserViewHolder(
     parent: ViewGroup,
-    private val onItemClicked: ((userInfo: UserInfo) -> Unit)? = null
+    private val onItemClicked: ((userInfo: UserInfo) -> Unit)
 ) : RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context)
         .inflate(R.layout.users_recyclerview_item, parent, false)
@@ -23,7 +23,7 @@ class UserViewHolder(
             usersRecyclerviewItemUid.text = userInfo.id
         }
         itemView.setOnClickListener {
-            onItemClicked?.invoke(userInfo)
+            onItemClicked.invoke(userInfo)
         }
     }
 }

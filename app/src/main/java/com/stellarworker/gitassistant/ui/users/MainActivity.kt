@@ -13,57 +13,78 @@ import com.stellarworker.gitassistant.utils.makeSnackbar
 
 private const val DETAILS_DATA = "DETAILS_DATA"
 
-class MainActivity : AppCompatActivity(), UsersContract.View {
+class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val adapter = UsersAdapter(
-        onItemClicked = { userInfo ->
-            startActivity(Intent(this, UserDetailsActivity::class.java).apply {
-                putExtra(DETAILS_DATA, userInfo)
-            })
+        onItemClicked = {
+            viewModel.onUserClick(it)
         }
     )
-    private lateinit var presenter: UsersContract.Presenter
+    private lateinit var viewModel: UsersContract.ViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initViews()
-        presenter = extractPresenter()
-        presenter.attach(this)
+        initViewModel()
     }
 
-    private fun extractPresenter() =
-        lastCustomNonConfigurationInstance as? UsersContract.Presenter
-            ?: UsersPresenter(app.usersRepo)
+    private fun initViewModel() {
+        viewModel = extractViewModel()
+        viewModel.progressLiveData.observe(this) {
+            showProgress(it)
+            showContent(!it)
+        }
+        viewModel.usersLiveData.observe(this) {
+            showUsers(it)
+            showContent(true)
+        }
+        viewModel.errorLiveData.observe(this) {
+            showError(it)
+        }
+        viewModel.openDetailsLiveData.observe(this) {
+            openDetailsScreen(it)
+        }
+    }
+
+    private fun openDetailsScreen(userInfo: UserInfo) {
+        startActivity(Intent(this, UserDetailsActivity::class.java).apply {
+            putExtra(DETAILS_DATA, userInfo)
+        })
+    }
+
+    private fun extractViewModel() =
+        lastCustomNonConfigurationInstance as? UsersContract.ViewModel
+            ?: UsersViewModel(app.usersRepo)
 
     @Deprecated("Deprecated in Java")
-    override fun onRetainCustomNonConfigurationInstance() = presenter
+    override fun onRetainCustomNonConfigurationInstance() = viewModel
 
     private fun initViews() {
         binding.mainActivityRefreshButton.setOnClickListener {
-            presenter.onRefresh()
+            viewModel.onRefresh()
         }
         initRecyclerView()
         showProgress(false)
         showContent(false)
     }
 
-    override fun showUsers(dataset: MainActivityDataset) {
+    private fun showUsers(dataset: MainActivityDataset) {
         adapter.setData(dataset)
     }
 
-    override fun showError(error: Throwable) {
+    private fun showError(error: Throwable) {
         binding.mainActivityRoot.makeSnackbar(
             text = error.message ?: getString(R.string.network_error)
         )
     }
 
-    override fun showProgress(show: Boolean) {
+    private fun showProgress(show: Boolean) {
         binding.mainActivityProgressBar.progressBarLayoutRoot.isVisible = show
     }
 
-    override fun showContent(show: Boolean) {
+    private fun showContent(show: Boolean) {
         binding.mainActivityRecyclerView.isVisible = show
     }
 
@@ -72,11 +93,6 @@ class MainActivity : AppCompatActivity(), UsersContract.View {
             mainActivityRecyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
             mainActivityRecyclerView.adapter = adapter
         }
-    }
-
-    override fun onDestroy() {
-        presenter.detach()
-        super.onDestroy()
     }
 
 }
