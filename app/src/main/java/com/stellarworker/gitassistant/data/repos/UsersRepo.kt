@@ -1,10 +1,8 @@
 package com.stellarworker.gitassistant.data.repos
 
 import com.stellarworker.gitassistant.data.entities.UsersEntityGTO
+import io.reactivex.rxjava3.core.Single
 
 interface UsersRepo {
-    fun getUsers(
-        onSuccess: (UsersEntityGTO) -> Unit,
-        onError: ((Throwable) -> Unit)? = null
-    )
+    fun getUsers(): Single<UsersEntityGTO>
 }

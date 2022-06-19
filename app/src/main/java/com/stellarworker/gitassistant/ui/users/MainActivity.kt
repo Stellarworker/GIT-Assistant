@@ -10,17 +10,17 @@ import com.stellarworker.gitassistant.app
 import com.stellarworker.gitassistant.databinding.ActivityMainBinding
 import com.stellarworker.gitassistant.ui.users.userdetails.UserDetailsActivity
 import com.stellarworker.gitassistant.utils.makeSnackbar
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 private const val DETAILS_DATA = "DETAILS_DATA"
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private val adapter = UsersAdapter(
-        onItemClicked = {
-            viewModel.onUserClick(it)
-        }
-    )
+    private val adapter = UsersAdapter {
+        viewModel.onUserClick(it)
+    }
     private lateinit var viewModel: UsersContract.ViewModel
+    private val viewModelDisposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,19 +32,23 @@ class MainActivity : AppCompatActivity() {
 
     private fun initViewModel() {
         viewModel = extractViewModel()
-        viewModel.progressLiveData.observe(this) {
-            showProgress(it)
-            showContent(!it)
-        }
-        viewModel.usersLiveData.observe(this) {
-            showUsers(it)
-            showContent(true)
-        }
-        viewModel.errorLiveData.observe(this) {
-            showError(it)
-        }
-        viewModel.openDetailsLiveData.observe(this) {
-            openDetailsScreen(it)
+        with(viewModel) {
+            viewModelDisposable.addAll(
+                progressLiveData.subscribe {
+                    showProgress(it)
+                    showContent(!it)
+                },
+                usersLiveData.subscribe {
+                    showUsers(it)
+                    showContent(true)
+                },
+                errorLiveData.subscribe {
+                    showError(it)
+                },
+                openDetailsLiveData.subscribe {
+                    openDetailsScreen(it)
+                }
+            )
         }
     }
 
@@ -95,4 +99,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onDestroy() {
+        viewModelDisposable.dispose()
+        super.onDestroy()
+    }
 }

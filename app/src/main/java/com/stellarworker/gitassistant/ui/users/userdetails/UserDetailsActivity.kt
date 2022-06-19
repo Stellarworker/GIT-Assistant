@@ -16,7 +16,10 @@ class UserDetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityUserDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        showUserInfo(intent.extras?.get(DETAILS_DATA) as UserInfo)
+        val userInfo = intent.extras?.get(DETAILS_DATA) as? UserInfo
+        userInfo?.let { info ->
+            showUserInfo(info)
+        }
     }
 
     private fun showUserInfo(userInfo: UserInfo) {
