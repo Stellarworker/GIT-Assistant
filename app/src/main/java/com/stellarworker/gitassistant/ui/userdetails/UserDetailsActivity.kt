@@ -1,4 +1,4 @@
-package com.stellarworker.gitassistant.ui.users.userdetails
+package com.stellarworker.gitassistant.ui.userdetails
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

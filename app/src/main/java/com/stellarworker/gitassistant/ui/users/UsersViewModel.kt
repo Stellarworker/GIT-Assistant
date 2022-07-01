@@ -1,13 +1,15 @@
 package com.stellarworker.gitassistant.ui.users
 
+import com.stellarworker.gitassistant.data.entities.UserEntityGTO
+import com.stellarworker.gitassistant.data.entities.UsersEntityGTO
 import com.stellarworker.gitassistant.data.repos.UsersRepo
-import com.stellarworker.gitassistant.utils.makeMainActivityDataset
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 import io.reactivex.rxjava3.subjects.Subject
 
 private const val ERROR_MESSAGE = "It is not MutableLiveData!"
+private const val EMPTY_STRING = ""
 
 class UsersViewModel(private val usersRepo: UsersRepo) : UsersContract.ViewModel {
 
@@ -43,4 +45,19 @@ class UsersViewModel(private val usersRepo: UsersRepo) : UsersContract.ViewModel
         return this as? Subject<T>
             ?: throw IllegalStateException(ERROR_MESSAGE)
     }
+
+    private fun convertUserEntityGTOToUserInfo(userEntityGTO: UserEntityGTO) =
+        with(userEntityGTO) {
+            UserInfo(
+                login = login ?: EMPTY_STRING,
+                id = id?.toString() ?: EMPTY_STRING,
+                type = type ?: EMPTY_STRING,
+                avatarUrl = avatarUrl ?: EMPTY_STRING
+            )
+        }
+
+    private fun makeMainActivityDataset(usersEntityGTO: UsersEntityGTO) =
+        MainActivityDataset(
+            users = usersEntityGTO.map { item -> convertUserEntityGTOToUserInfo(item) }
+        )
 }
