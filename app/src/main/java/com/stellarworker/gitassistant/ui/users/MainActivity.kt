@@ -2,17 +2,19 @@ package com.stellarworker.gitassistant.ui.users
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.stellarworker.gitassistant.R
 import com.stellarworker.gitassistant.app
 import com.stellarworker.gitassistant.databinding.ActivityMainBinding
-import com.stellarworker.gitassistant.ui.users.userdetails.UserDetailsActivity
-import com.stellarworker.gitassistant.utils.makeSnackbar
+import com.stellarworker.gitassistant.ui.userdetails.UserDetailsActivity
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 private const val DETAILS_DATA = "DETAILS_DATA"
+private const val EMPTY_STRING = ""
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -21,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     }
     private lateinit var viewModel: UsersContract.ViewModel
     private val viewModelDisposable = CompositeDisposable()
+    private val refreshButtonDisposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,9 +69,10 @@ class MainActivity : AppCompatActivity() {
     override fun onRetainCustomNonConfigurationInstance() = viewModel
 
     private fun initViews() {
-        binding.mainActivityRefreshButton.setOnClickListener {
-            viewModel.onRefresh()
-        }
+        refreshButtonDisposable.add(
+            binding.mainActivityRefreshButton.clickEvent.subscribe {
+                viewModel.onRefresh()
+            })
         initRecyclerView()
         showProgress(false)
         showContent(false)
@@ -101,6 +105,21 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         viewModelDisposable.dispose()
+        refreshButtonDisposable.dispose()
         super.onDestroy()
+    }
+
+    private fun View.makeSnackbar(
+        text: String = EMPTY_STRING,
+        actionText: String = EMPTY_STRING,
+        action: (View) -> Unit = {},
+        length: Int = Snackbar.LENGTH_LONG,
+        anchor: View? = null
+    ) {
+        Snackbar
+            .make(this, text, length)
+            .setAction(actionText, action)
+            .setAnchorView(anchor)
+            .show()
     }
 }

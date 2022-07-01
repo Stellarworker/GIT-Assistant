@@ -26,7 +26,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.users.userdetails.UserDetailsActivity"
+            android:name="com.stellarworker.gitassistant.ui.userdetails.UserDetailsActivity"
             android:parentActivityName=".ui.users.MainActivity">
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
