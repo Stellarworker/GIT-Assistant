@@ -9,19 +9,20 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.stellarworker.gitassistant.R
 import com.stellarworker.gitassistant.app
+import com.stellarworker.gitassistant.data.repos.UsersRepo
 import com.stellarworker.gitassistant.databinding.ActivityMainBinding
 import com.stellarworker.gitassistant.ui.userdetails.UserDetailsActivity
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
-private const val DETAILS_DATA = "DETAILS_DATA"
 private const val EMPTY_STRING = ""
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private val adapter = UsersAdapter {
-        viewModel.onUserClick(it)
+    private val adapter = UsersAdapter { userInfo ->
+        viewModel.onUserClick(userInfo)
     }
     private lateinit var viewModel: UsersContract.ViewModel
+    private val usersRepo: UsersRepo by lazy { app.usersRepo }
     private val viewModelDisposable = CompositeDisposable()
     private val refreshButtonDisposable = CompositeDisposable()
 
@@ -57,13 +58,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun openDetailsScreen(userInfo: UserInfo) {
         startActivity(Intent(this, UserDetailsActivity::class.java).apply {
-            putExtra(DETAILS_DATA, userInfo)
+            putExtra(app.detailsData, userInfo)
         })
     }
 
     private fun extractViewModel() =
         lastCustomNonConfigurationInstance as? UsersContract.ViewModel
-            ?: UsersViewModel(app.usersRepo)
+            ?: UsersViewModel(usersRepo)
 
     @Deprecated("Deprecated in Java")
     override fun onRetainCustomNonConfigurationInstance() = viewModel

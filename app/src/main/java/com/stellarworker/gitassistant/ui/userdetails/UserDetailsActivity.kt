@@ -4,10 +4,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import coil.load
 import com.stellarworker.gitassistant.R
+import com.stellarworker.gitassistant.app
 import com.stellarworker.gitassistant.databinding.ActivityUserDetailsBinding
 import com.stellarworker.gitassistant.ui.users.UserInfo
-
-private const val DETAILS_DATA = "DETAILS_DATA"
 
 class UserDetailsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityUserDetailsBinding
@@ -16,7 +15,7 @@ class UserDetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityUserDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val userInfo = intent.extras?.get(DETAILS_DATA) as? UserInfo
+        val userInfo = intent.extras?.get(app.detailsData) as? UserInfo
         userInfo?.let { info ->
             showUserInfo(info)
         }
