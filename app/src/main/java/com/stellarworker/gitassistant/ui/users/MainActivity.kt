@@ -8,11 +8,12 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.stellarworker.gitassistant.R
-import com.stellarworker.gitassistant.app
-import com.stellarworker.gitassistant.data.repos.UsersRepo
 import com.stellarworker.gitassistant.databinding.ActivityMainBinding
 import com.stellarworker.gitassistant.ui.userdetails.UserDetailsActivity
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import org.koin.android.ext.android.get
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.qualifier.named
 
 private const val EMPTY_STRING = ""
 
@@ -21,8 +22,7 @@ class MainActivity : AppCompatActivity() {
     private val adapter = UsersAdapter { userInfo ->
         viewModel.onUserClick(userInfo)
     }
-    private lateinit var viewModel: UsersContract.ViewModel
-    private val usersRepo: UsersRepo by lazy { app.usersRepo }
+    private val viewModel: UsersViewModel by viewModel()
     private val viewModelDisposable = CompositeDisposable()
     private val refreshButtonDisposable = CompositeDisposable()
 
@@ -35,7 +35,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initViewModel() {
-        viewModel = extractViewModel()
         with(viewModel) {
             viewModelDisposable.addAll(
                 progressLiveData.subscribe {
@@ -58,16 +57,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun openDetailsScreen(userInfo: UserInfo) {
         startActivity(Intent(this, UserDetailsActivity::class.java).apply {
-            putExtra(app.detailsData, userInfo)
+            putExtra(get(named("detailsData")), userInfo)
         })
     }
-
-    private fun extractViewModel() =
-        lastCustomNonConfigurationInstance as? UsersContract.ViewModel
-            ?: UsersViewModel(usersRepo)
-
-    @Deprecated("Deprecated in Java")
-    override fun onRetainCustomNonConfigurationInstance() = viewModel
 
     private fun initViews() {
         refreshButtonDisposable.add(
