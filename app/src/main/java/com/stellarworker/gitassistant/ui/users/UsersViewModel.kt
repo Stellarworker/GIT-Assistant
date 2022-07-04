@@ -1,5 +1,6 @@
 package com.stellarworker.gitassistant.ui.users
 
+import androidx.lifecycle.ViewModel
 import com.stellarworker.gitassistant.data.entities.UserEntityGTO
 import com.stellarworker.gitassistant.data.entities.UsersEntityGTO
 import com.stellarworker.gitassistant.data.repos.UsersRepo
@@ -11,7 +12,7 @@ import io.reactivex.rxjava3.subjects.Subject
 private const val ERROR_MESSAGE = "It is not MutableLiveData!"
 private const val EMPTY_STRING = ""
 
-class UsersViewModel(private val usersRepo: UsersRepo) : UsersContract.ViewModel {
+class UsersViewModel(private val usersRepo: UsersRepo) : UsersContract.ViewModel, ViewModel() {
 
     override val usersLiveData: Observable<MainActivityDataset> = BehaviorSubject.create()
     override val errorLiveData: Observable<Throwable> = BehaviorSubject.create()

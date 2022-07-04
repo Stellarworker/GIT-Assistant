@@ -6,8 +6,8 @@ import coil.load
 import com.stellarworker.gitassistant.R
 import com.stellarworker.gitassistant.databinding.ActivityUserDetailsBinding
 import com.stellarworker.gitassistant.ui.users.UserInfo
-
-private const val DETAILS_DATA = "DETAILS_DATA"
+import org.koin.android.ext.android.get
+import org.koin.core.qualifier.named
 
 class UserDetailsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityUserDetailsBinding
@@ -16,7 +16,7 @@ class UserDetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityUserDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val userInfo = intent.extras?.get(DETAILS_DATA) as? UserInfo
+        val userInfo = intent.extras?.get(get(named("detailsData"))) as? UserInfo
         userInfo?.let { info ->
             showUserInfo(info)
         }
