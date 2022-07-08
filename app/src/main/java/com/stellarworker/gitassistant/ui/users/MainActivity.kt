@@ -8,12 +8,12 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.stellarworker.gitassistant.R
+import com.stellarworker.gitassistant.app
+import com.stellarworker.gitassistant.data.repos.UsersRepo
 import com.stellarworker.gitassistant.databinding.ActivityMainBinding
 import com.stellarworker.gitassistant.ui.userdetails.UserDetailsActivity
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import org.koin.android.ext.android.get
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.qualifier.named
+import javax.inject.Inject
 
 private const val EMPTY_STRING = ""
 
@@ -22,7 +22,14 @@ class MainActivity : AppCompatActivity() {
     private val adapter = UsersAdapter { userInfo ->
         viewModel.onUserClick(userInfo)
     }
-    private val viewModel: UsersViewModel by viewModel()
+
+    @Inject
+    lateinit var usersRepo: UsersRepo
+
+    @Inject
+    lateinit var detailsData: String
+
+    private val viewModel: UsersViewModel by lazy { UsersViewModel(usersRepo) }
     private val viewModelDisposable = CompositeDisposable()
     private val refreshButtonDisposable = CompositeDisposable()
 
@@ -30,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        app.appComponent.injectMainActivity(this)
         initViews()
         initViewModel()
     }
@@ -57,7 +65,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun openDetailsScreen(userInfo: UserInfo) {
         startActivity(Intent(this, UserDetailsActivity::class.java).apply {
-            putExtra(get(named("detailsData")), userInfo)
+            putExtra(detailsData, userInfo)
         })
     }
 
