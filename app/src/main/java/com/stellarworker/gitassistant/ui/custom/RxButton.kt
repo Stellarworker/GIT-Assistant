@@ -1,4 +1,4 @@
-package com.stellarworker.gitassistant.data.custom
+package com.stellarworker.gitassistant.ui.custom
 
 import android.content.Context
 import android.util.AttributeSet
