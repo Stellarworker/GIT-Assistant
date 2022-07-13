@@ -1,8 +1,8 @@
-package com.stellarworker.gitassistant.data.entities
+package com.stellarworker.gitassistant.data.retrofit
 
 import com.google.gson.annotations.SerializedName
 
-data class UserEntityGTO(
+data class UserEntityDTO(
     @SerializedName("login")
     val login: String? = null,
 
@@ -58,4 +58,4 @@ data class UserEntityGTO(
     val siteAdmin: Boolean? = null
 )
 
-typealias UsersEntityGTO = List<UserEntityGTO>
+typealias UsersEntityDTO = List<UserEntityDTO>

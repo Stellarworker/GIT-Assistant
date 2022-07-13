@@ -8,12 +8,10 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.stellarworker.gitassistant.R
-import com.stellarworker.gitassistant.app
-import com.stellarworker.gitassistant.data.repos.UsersRepo
 import com.stellarworker.gitassistant.databinding.ActivityMainBinding
+import com.stellarworker.gitassistant.di.get
 import com.stellarworker.gitassistant.ui.userdetails.UserDetailsActivity
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import javax.inject.Inject
 
 private const val EMPTY_STRING = ""
 
@@ -23,13 +21,7 @@ class MainActivity : AppCompatActivity() {
         viewModel.onUserClick(userInfo)
     }
 
-    @Inject
-    lateinit var usersRepo: UsersRepo
-
-    @Inject
-    lateinit var detailsData: String
-
-    private val viewModel: UsersViewModel by lazy { UsersViewModel(usersRepo) }
+    private lateinit var viewModel: UsersContract.ViewModel
     private val viewModelDisposable = CompositeDisposable()
     private val refreshButtonDisposable = CompositeDisposable()
 
@@ -37,12 +29,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        app.appComponent.injectMainActivity(this)
         initViews()
         initViewModel()
     }
 
     private fun initViewModel() {
+        viewModel = extractViewModel()
         with(viewModel) {
             viewModelDisposable.addAll(
                 progressLiveData.subscribe {
@@ -65,7 +57,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun openDetailsScreen(userInfo: UserInfo) {
         startActivity(Intent(this, UserDetailsActivity::class.java).apply {
-            putExtra(detailsData, userInfo)
+            putExtra(get(), userInfo)
         })
     }
 
@@ -88,6 +80,12 @@ class MainActivity : AppCompatActivity() {
             text = error.message ?: getString(R.string.network_error)
         )
     }
+
+    private fun extractViewModel() =
+        lastCustomNonConfigurationInstance as? UsersContract.ViewModel ?: UsersViewModel()
+
+    @Deprecated("Deprecated in Java")
+    override fun onRetainCustomNonConfigurationInstance() = viewModel
 
     private fun showProgress(show: Boolean) {
         binding.mainActivityProgressBar.progressBarLayoutRoot.isVisible = show
