@@ -20,11 +20,6 @@ class UsersPresenter(private val usersRepo: UsersRepo) : UsersContract.Presenter
     }
 
     override fun onRefresh() {
-        loadData()
-
-    }
-
-    private fun loadData() {
         view?.let {
             it.showProgress(true)
             it.showContent(false)
